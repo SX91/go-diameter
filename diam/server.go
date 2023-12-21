@@ -153,6 +153,10 @@ func (srv *Server) newConn(rwc net.Conn) (c *conn, err error) {
 		c.buf = bufio.NewReadWriter(bufio.NewReader(&c.sr), bufio.NewWriter(rwc))
 	}
 	c.writer = &response{conn: c}
+
+	// FIXME: hack to create close channel before using created connection
+	c.closeNotify()
+
 	return c, nil
 }
 
